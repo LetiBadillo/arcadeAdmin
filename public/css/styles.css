@@ -41,17 +41,11 @@
   }
 
   .transparent-green{
-    background-color: #005800;
-    opacity: 0.5;
-    position: relative;
-    z-index: -1;
-    top: -10em;
-    border-radius: 0;
+    background-color:rgba(0, 88, 0, 0.7);
+    padding: 10%;
+    min-height: 320px;
   }
-  .contentOnTop{
-        position: relative;
-        top: 5em;
-  }
+  
 .form-control {
     border: none !important;
     border-bottom: 2px solid #d3d3d3 !important;
@@ -76,10 +70,23 @@
   .form-control:-moz-placeholder { /* Firefox 18- */
     color: #d3d3d3;
   }
-/******************
-******Buttons******
-*******************/
-.btn {
+/********************************
+*************NAVBAR*************
+*********************************/
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover .navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link{
+  color:white;
+  text-shadow: 2px 2px 4px #ffcc00;
+}
+.navbar-dark .navbar-nav .nav-link{
+  color: white;
+}
+
+
+/********************************
+*************BUTTONS*************
+*********************************/
+
+.button {
 	background: #7C7C7C;
 	border-bottom: 4px inset rgba(0,0,0,.5);
 	border-left: 4px inset rgba(0,0,0,.5);
@@ -92,34 +99,35 @@
 	text-transform: uppercase;
 	width: 100%;
 }
-.btn:focus,
-.btn:hover {
+.button:focus,
+.button:hover {
     background: #BCBCBC;
+    color: white;
 }
 
-.btn.primary {
+.button.primary {
 	background: #881400;
 }
 
-.btn.primary:focus,
-.btn.primary:hover {
+.button.primary:focus,
+.button.primary:hover {
 		background: #A81000;
 	}
 
-.btn.secondary {
+.button.secondary {
 	background: #005800;
 }
-.btn.secondary:focus,
-.btn.secondary:hover {
+.button.secondary:focus,
+.button.secondary:hover {
 		background: #006800;
 }
 
-.btn.tertiary {
+.button.tertiary {
 	background: #0000BC;
 }
 
-.btn.tertiary:focus,
-.btn.tertiary:hover {
+.button.tertiary:focus,
+.button.tertiary:hover {
 		background: #0000FC;
-	}
+}
 

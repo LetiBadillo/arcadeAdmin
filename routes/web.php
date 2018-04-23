@@ -11,9 +11,13 @@
 |
 */
 
+Auth::routes();
 Route::get('/', function () {
     return view('welcome.welcome');
 });
 Route::get('/dashboard', function (){
     return view('welcome.dashboard');
 });
+
+
+

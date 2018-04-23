@@ -20,17 +20,18 @@
           <li class="nav-item active">
             <a class="nav-link" id="startLogin">START</a>
           </li>
-          <!--<li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>-->
-          <!--<li class="nav-item dropup">
+          <li class="nav-item dropup">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropup</a>
             <div class="dropdown-menu" aria-labelledby="dropdown10">
               <a class="dropdown-item" href="#">START</a>
               <a class="dropdown-item" href="#">Another action</a>
               <a class="dropdown-item" href="#">Salir</a>
             </div>
-          </li>-->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Salir</a>            
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>                           
+          </li>
         </ul>
       </div>
     </nav>
