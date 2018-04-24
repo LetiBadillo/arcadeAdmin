@@ -14,10 +14,12 @@
 Auth::routes();
 Route::get('/', function () {
     return view('welcome.welcome');
-});
+})->middleware('guest');
 Route::get('/dashboard', function (){
     return view('welcome.dashboard');
-});
+})->middleware('auth');
 
+Route::resource('subjects', 'SubjectsController');
+Route::resource('users', 'SubjectsController');
 
 
