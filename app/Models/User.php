@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,4 +26,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function subjects(){
+        return $this->hasManyThrough(SubjectPermission::class, Subject::class);
+    }
+
+    public function questions(){
+        return $this->hasMany('App\Models\Question');
+    }
+
 }
