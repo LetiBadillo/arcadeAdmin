@@ -42,9 +42,9 @@
 
   .transparent-green{
     background-color:rgba(84, 210, 1, .6);
-    padding: 10%;
     min-height: 320px;
   }
+  
   
 .form-control {
     border: none !important;
@@ -138,8 +138,8 @@
 *************DROPDOWN*************
 *********************************/
 
-.dropdown-menu{
-  background-color: black;
+.dropdown-menu, .table tr:hover{
+  background-color: black !important;
 }
 
 .dropdown-item:hover{
