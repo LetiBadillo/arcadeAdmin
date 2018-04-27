@@ -8,6 +8,8 @@
     <title>Arcade</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+    <link rel="stylesheet" href="{{asset('css/fontawesome-all.css')}}">
+    <link rel="stylesheet" href="{{asset('css/multi-select.css')}}">
 </head>
 <body>
 <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark">
@@ -18,20 +20,27 @@
       @if(Auth::user())
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ml-auto font-md">
-          <li class="nav-item active">
-            <a class="nav-link" id="startLogin">INICIO</a>
+          <li class="nav-item active" id="inicio">
+            <a href="{{url('/')}}" class="nav-link">INICIO</a>
           </li>
-          <li class="nav-item dropup">
+          <li class="materias nav-item dropup">
             <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MATERIAS </a>
             <div class="dropdown-menu" aria-labelledby="dropdown10">
               <a class="dropdown-item" href="{{url('subjects')}}">VER</a>
               <a class="dropdown-item" href="{{url('subjects/create')}}">CREAR</a>
             </div>
           </li>
-          <li class="nav-item dropup">
+          <li class="usuarios nav-item dropup">
             <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">USUARIOS </a>
             <div class="dropdown-menu" aria-labelledby="dropdown10">
             <a class="dropdown-item" href="{{url('users')}}">VER</a>
+            <a class="dropdown-item" href="{{url('users/create-*')}}">CREAR</a>
+            </div>
+          </li>
+          <li class="cuenta nav-item dropup">
+            <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CUENTA </a>
+            <div class="dropdown-menu" aria-labelledby="dropdown10">
+            <a class="dropdown-item" href="{{url('users')}}">CONTRASEÑA</a>
             <a class="dropdown-item" href="{{url('users/create-*')}}">CREAR</a>
             </div>
           </li>
@@ -39,6 +48,7 @@
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">SALIR</a>            
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>                           
           </li>
+          
         </ul>
       </div>
       @endif
@@ -61,4 +71,6 @@
 </html>
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/scripts.js')}}"></script>
+<script src="{{asset('js/jquery.multi-select.js')}}"></script>
+<script src="{{asset('js/jquery.quicksearch.js')}}"></script>
 @yield('scripts')

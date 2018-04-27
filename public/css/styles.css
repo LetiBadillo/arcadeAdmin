@@ -133,16 +133,79 @@
 		background: #0000FC;
 }
 
+.button.yellow {
+	background: #F0CF26;
+}
+
+.button.yellow:focus,
+.button.yellow:hover {
+		background: #E6B72A;
+}
+
+
+.button.pink {
+	background:#CD1670;
+}
+
+.button.pink:focus,
+.button.pink:hover {
+		background: #CB1871;
+}
+
+.button.orange {
+	background:#F84413;
+}
+
+.button.orange:focus,
+.button.orange:hover {
+		background: #F9400A;
+}
+
+.button.azulito {
+	background:#00FEF6;
+}
+
+.button.azulito:focus,
+.button.azulito:hover {
+		background: #2883FF;
+}
+.button.purple {
+	background:#AB4ABF;
+}
+
+.button.purple:focus,
+.button.purple:hover {
+		background:	#C01EB2;
+}
+
+
+
 
 /********************************
 *************DROPDOWN*************
 *********************************/
 
-.dropdown-menu, .table tr:hover{
+.dropdown-menu, .table tr:hover, select option{
   background-color: black !important;
 }
 
 .dropdown-item:hover{
   /*padding: .25em 0;*/
-  background-color: rgba(84, 210, 1, 1);
+  background-color: rgba(84, 210, 1, 1) !important;
+}
+
+
+/********************************
+***********MULTISELECT***********
+*********************************/
+.ms-container{
+  width: 100% !important;
+}
+
+.ms-container .ms-selectable, .ms-container .ms-selection{
+  background-color: rgba(84, 210, 1, .7) !important;
+}
+
+.ms-list li:hover, .ms-selection .ms-list li{
+  background-color: black !important;
 }

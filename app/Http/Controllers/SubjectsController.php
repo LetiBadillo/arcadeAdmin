@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Subject;
+use App\Models\SubjectPermission;
 use Illuminate\Http\Request;
 
 class SubjectsController extends Controller
@@ -20,7 +21,14 @@ class SubjectsController extends Controller
 
     public function store(Request $request){
         $subject = Subject::create($request->all());
-        return redirect('subject');
+        foreach($request->users as $id){
+            SubjectPermission::create([
+                'user_id' => $id,
+                'subject_id' => $subject->id
+            ]);
+        }
+        return $subject; 
+        return redirect('subjects');
     }
 
     public function edit(Request $request, $id){
@@ -29,7 +37,7 @@ class SubjectsController extends Controller
     }
     public function update(Request $request, $id){
         $subject = Subject::findOrFail($id)->update($request->all());
-        return redirect('subject');
+        return redirect('subjects');
     }
     public function show(Request $request, $id){
         $subject = Subject::findOrFail($id);

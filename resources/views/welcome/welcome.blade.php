@@ -3,7 +3,7 @@
 <div class="container h-100">
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-        <form class="col-12 transparent-green" method="POST" action="{{ route('login') }}">
+        <form class="col-12 transparent-green p-5" method="POST" action="{{ route('login') }}">
             <!--style="top: 8em;"-->
             @csrf
             <div class="form-group">
@@ -24,4 +24,10 @@
 </div>
 @endsection
 @section('scripts')
+<script>
+    $(function() {
+        $('#inicio').addClass('active');
+       
+    });
+</script>
 @endsection

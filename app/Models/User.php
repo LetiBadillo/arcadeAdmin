@@ -27,12 +27,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = ['label'];
+
     public function subjects(){
-        return $this->hasManyThrough(SubjectPermission::class, Subject::class);
+        return $this->hasManyThrough(Subject::class, SubjectPermission::class);
     }
 
     public function questions(){
         return $this->hasMany('App\Models\Question');
     }
 
+    public function getlabelAttribute()
+    {
+       return $this->name.' '.$this->last_name;
+    }
 }

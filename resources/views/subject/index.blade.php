@@ -42,4 +42,11 @@
 </div>
 @endsection
 @section('scripts')
+<script>
+    $('#inicio').removeClass('active');
+    $(function() {
+        $('.materias').addClass('active');
+
+    });
+</script>
 @endsection
