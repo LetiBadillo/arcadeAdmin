@@ -13,7 +13,7 @@ class StoreSubject extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,22 @@ class StoreSubject extends FormRequest
     public function rules()
     {
         return [
-            //
+            'subject_name' => 'required|string',
+            'subject_branch_id' => 'required|integer',
+            'level' => 'required|integer',
+            'user_id' => 'array',
         ];
     }
+    public function messages()
+{
+    return [
+        'subject_name.required' => 'El nombre de la materia es requerido.',
+        'subject_name.string' => 'Ese formato no es compatible.',
+        'subject_branch_id.required'  => 'La rama de la materia es requerida.',
+        'subject_branch_id.integer'  => 'Ese formato no es compatible.',
+        'level.integer'  => 'Ese formato no es compatible.',
+        'level.required'  => 'Selecciona el nivel escolar.',
+        'user_id.array'  => 'Ese formato no es compatible.'
+    ];
+}
 }

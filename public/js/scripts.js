@@ -11,7 +11,6 @@ $(function() {
               selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
           that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
           .on('keydown', function(e){
-            console.log(e);
             if (e.which === 40){
               that.$selectableUl.focus();
               return false;
@@ -47,4 +46,52 @@ function fillSelect(select, url, flag){
       $(select).multiSelect('refresh');
   }
 });
+}
+
+function saveForm(form, url, action){
+  $(form).on('submit', function(e){
+    e.preventDefault();
+    hide($('.feedback'));
+    $.post(url, $(form).serialize())
+    .done(function(data){
+      responses(data, action);
+    }).fail(function(data){
+      getErrors(data);      
+    });
+  });
+
+}
+
+function responses(data, action){
+  switch (action) {
+    case 1: /*Alert*/ 
+    $('.modal-body').html(data);
+    $('.modal-footer').html('<button type="button" class="button" data-dismiss="modal">Cerrar</button>');
+    $('#myModal').modal('show');
+    break;
+    case 2: /*Alert with redirect*/ 
+      $('.modal-body').html(data.response);
+      $('.modal-footer').html('<a type="button" href="'+data.location+'" class="button pink">Continuar</a>');
+      $('#myModal').modal('show');
+    break;
+    default:
+    window.location.href = ''+action; //Redirect
+    break;
+  }
+}
+
+function getErrors(data){
+  if(data.responseJSON.error){
+    responses(data.responseJSON.error, 1);
+  }else{
+    $.each(data.responseJSON.errors, function(key,value){
+      $('#'+key+'_error').text(value).removeClass('d-none');
+    });
+  }
+}
+
+function hide(data){
+  $(data).each(function(k, v){
+    $(v).html("").addClass('d-none');
+  });
 }

@@ -14,7 +14,7 @@ class SubjectBranch extends Model
     protected $appends = ['label'];
    
     public function subjects(){
-        return $this->belongsTo('App\Models\Subject');
+        return $this->hasMany('App\Models\Subject');
     }
 
     public function getlabelAttribute()

@@ -15,7 +15,7 @@ class Subject extends Model
 
 
     public function subject_branch(){
-        return $this->hasOne('App\Models\SubjectBranch');
+        return $this->belongsTo('App\Models\SubjectBranch');
     }
 
     public function questions(){
