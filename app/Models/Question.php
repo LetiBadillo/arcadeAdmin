@@ -9,7 +9,7 @@ class Question extends Model
     //
     protected $table = 'questions';
 
-    protected $fillable = ['subject_id', 'score', 'difficulty', 'author_id', 'enabled'];
+    protected $fillable = ['question', 'subject_id', 'score', 'difficulty', 'author_id', 'enabled'];
 
    public function subject(){
        return $this->belongsTo('App\Models\Subject');

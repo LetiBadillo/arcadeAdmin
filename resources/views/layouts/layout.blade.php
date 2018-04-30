@@ -70,6 +70,9 @@
 </body>
 </html>
 <script src="{{asset('js/app.js')}}"></script>
+<script>
+  var search_url = '';
+</script>
 <script src="{{asset('js/scripts.js')}}"></script>
 <script src="{{asset('js/jquery.multi-select.js')}}"></script>
 <script src="{{asset('js/jquery.quicksearch.js')}}"></script>

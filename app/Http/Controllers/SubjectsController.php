@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Subject;
+use App\Models\Question;
 use App\Models\SubjectPermission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -20,11 +21,17 @@ class SubjectsController extends Controller
     }
 
     public function index(Request $request){
-        $subjects = Subject::all();
         if($request->ws == "all"){
-            return $subjects;
+            return Subject::all();
+        }elseif($request->ws == "search"){
+            return Subject::
+            join( 'subject_branches', 'subject_branches.id', '=', 'subjects.subject_branch_id' )
+            ->where('subjects.subject_name', 'like', $request->search.'%')
+	        ->orWhere( 'subject_branches.branch_name', 'like', $request->search.'%')
+            ->get();
+        }else{
+            $subjects = Subject::paginate(8);
         }
-        
         return view('subject.index', compact('subjects'));
     }
     public function create(){
@@ -84,7 +91,8 @@ class SubjectsController extends Controller
         return redirect('subjects');
     }
     public function show(Request $request, $id){
-        return $subject = Subject::findOrFail($id);
+        $subject = Subject::findOrFail($id);
+        return view('subject.show', compact('subject'));
     }
     public function destroy($id){
         $subject = Subject::findOrFail($id)->delete();

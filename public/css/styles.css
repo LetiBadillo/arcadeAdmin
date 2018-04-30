@@ -35,7 +35,9 @@
   .font-md{
       font-size: 20px;  
   }
-  
+  .mbottom{
+    margin-bottom: 150px !important;
+  }
   #mainCarousel{
     position:fixed; 
     bottom: 0;
@@ -48,6 +50,11 @@
   .transparent-green{
     background-color:rgba(84, 210, 1, .6);
     min-height: 320px;
+  }
+  .greenbox{
+    background-color:rgba(84, 210, 1, .6);
+    /*background: rgba(205, 22, 112, .6);*/
+    padding: 1%;
   }
   
   
@@ -79,10 +86,24 @@
 ***************MODAL***************
 *********************************/
 .modal{
-  background-color:rgba(205, 22, 112, .6)
+  /*background-color:rgba(205, 22, 112, .6);
+  background-image: linear-gradient(to right,  rgba(254, 225, 64, .8) 0%, rgba(250, 112, 154, .9) 100%);*/
+  background-image: linear-gradient(-60deg, rgba(255, 88, 88, .6) 0%, rgba(240, 152, 25, .6) 100%);
 }
 .modal-content{
   background-color:rgba(84, 210, 1, .6);
+}
+.bg-black{
+  background: #000;
+}
+.bg-orange{
+  background: #E6B72A
+}
+.modal-footer{
+  border-top: 1px solid black;
+}
+.modal-header{
+  border-bottom: 1px solid black;
 }
 /********************************
 *************NAVBAR*************
@@ -186,7 +207,7 @@ button{
 .button.azulito:hover {
 		background: #2883FF;
 }
-.button.purple {
+.button.purple, .bg-purple {
 	background:#AB4ABF;
 }
 
@@ -201,7 +222,23 @@ button{
 /********************************
 *************DROPDOWN*************
 *********************************/
-
+.table-hover .table-dark td, .table-dark th, .table-dark thead th, .bg-pink{
+  background:#C01EB2 !important;
+}
+.table-dark tr{
+  /*border: 2px solid rgba(84, 210, 1, 1) !important;*/
+  border: 3px solid black !important;
+}
+.table-dark tbody tr:hover{
+  border: 3px solid #C01EB2 !important;
+}
+.table-dark tbody tr:hover th, .table-dark thead tr:hover th{
+/*border: 2px solid rgba(63, 151, 4, 0.6) !important;
+background-color: rgba(63, 151, 4, 0.6)  !important;*/
+background-color: black !important;
+/*background-color: rgba(63, 151, 4, 0.6)  !important;*/
+color: white !important;
+}
 .dropdown-menu, .table tr:hover, select option{
   background-color: black !important;
 }
@@ -225,4 +262,20 @@ button{
 
 .ms-list li:hover, .ms-selection .ms-list li{
   background-color: black !important;
+}
+
+/********************************
+***********PAGE-LINK***********
+*********************************/
+
+.page-link{
+   color: white !important;
+   background-color: black;
+}
+.page-item.disabled .page-link{
+  background-color: rgba(84, 210, 1, .1) !important;
+}
+.page-item.active .page-link,.page-item .page-link:hover, .page-item .page-link:focus{
+  background-color: rgba(84, 210, 1, .7) !important;
+  border-color: #fff;
 }

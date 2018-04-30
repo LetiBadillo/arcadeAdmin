@@ -11,7 +11,7 @@ class Subject extends Model
 
     protected $fillable = ['subject_name', 'subject_branch_id', 'level', 'enabled'];
 
-    protected $appends = ['assignedUsers'];
+    protected $appends = ['assignedUsers', 'branchName'];
 
 
     public function subject_branch(){
@@ -37,6 +37,10 @@ class Subject extends Model
             array_push($array, $permission->user);
         }
         return $array;
+    }
+
+    public function getbranchNameAttribute(){
+        return $this->subject_branch->branch_name;
     }
 
 }

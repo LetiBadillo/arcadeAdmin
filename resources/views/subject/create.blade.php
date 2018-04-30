@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('content')
 @include('partials.modal')
-<div class="mb-6 container h-100" style="margin-bottom: 100px !important;">
+<div class="mb-6 container h-100 mbottom">
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
         <div class="col-12 transparent-green p-5">
