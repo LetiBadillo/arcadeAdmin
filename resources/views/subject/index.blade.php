@@ -53,8 +53,10 @@
                                 @else
                                     Titulares:
                                 @endif
+                                <br>
                                 @foreach($subject->assignedUsers as $user)
-                                <p>{{$user->label}}<p>
+                                {{$user->label}}
+                                <br>
                                 @endforeach
                             @else
                                 <p>Aún no hay titulares asignados<p>

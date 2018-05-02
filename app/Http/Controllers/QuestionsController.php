@@ -86,6 +86,7 @@ class QuestionsController extends Controller
         try{
             DB::beginTransaction();
             $question = Question::findOrFail($id);
+            $question->update($request->all());
             foreach($question->options as $option){
                 $option->delete();
             }

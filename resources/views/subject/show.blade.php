@@ -26,7 +26,7 @@ if($subject->enabled == 1){
                     <h2><i class="fas fa-bars"></i></h2>
                     </button>
                     <div class="dropdown-menu">
-                        <a id="editSubject" class="dropdown-item" href="#"><i class="far fa-edit"></i> Editar</a>
+                        <a id="editSubjectButton" class="dropdown-item" href="#"><i class="far fa-edit"></i> Editar</a>
                         <a id="enableSubject" class="dropdown-item" href="#">  {!! $menu_enable !!}</a>
                     </div>
                 </div>
@@ -60,6 +60,7 @@ if($subject->enabled == 1){
             <small><button type="button" style="color: white;" class="button" id="addQuestion">agregar pregunta</button></small>
         </div>
             <br>
+            @if(count($subject->questions))
             <form id="searchForm">
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon1"><i class="fas fa-search"></i></span>
@@ -69,7 +70,6 @@ if($subject->enabled == 1){
             <br>
             <table class="table results table-dark">
                 <tbody id="questionsTableBody">
-                @if(count($subject->questions))
                     @foreach($subject->questions as $question)
                 <tr class="m-3">
                 <th scope="col" class="text-uppercase align-middle text-center" > <i class="far fa-dot-circle"></i> 
@@ -107,9 +107,9 @@ if($subject->enabled == 1){
                 </th>
                 </tr>
                     @endforeach
-                @endif
                 </tbody>
             </table>
+            @endif
         </div>
     </div>
   </div>
@@ -177,7 +177,7 @@ if($subject->enabled == 1){
             saveForm($('#saveQuestion'), url_question, 3);
         });  
         
-        $('#editSubject').on('click', function(){
+        $('#editSubjectButton').on('click', function(){
             $('.modal-header').addClass('bg-black');
             $('.close').addClass('text-light');
             $('.modal-title').text('{{$subject->subject_name}} ');
@@ -209,7 +209,7 @@ if($subject->enabled == 1){
                                 <h5>Asignar maestros</h5>\
                                 <small id="user_id_info" class="form-text feedback">Este campo no es requerido</small>\
                                 <small id="user_id_error" class="d-none form-text feedback bg-danger"></small>\
-                                <select style="width:100%;" class="multiselect" multiple="multiple" id="usersSelect" name="user_id[]">\
+                                <select style="width:100%;" class="multiselect option" multiple="multiple" id="usersSelect" name="user_id[]">\
                                 </select>\
                             </div>\
                             <label class="form-check-label" for="level">Nivel</label>\

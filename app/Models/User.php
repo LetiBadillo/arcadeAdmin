@@ -44,16 +44,18 @@ class User extends Authenticatable
     }
     public function getpermissionAttribute()
     {
+        $result = null;
         if(request()->subject_id){
             foreach($this->subjects as $subject){
                 if($subject->subject_id == request()->subject_id){
                     return true;
                 }else{
-                    return false;
+                    $result = false;
                 }
             }
-        }else{
-            return null;
         }
+        return $result;
     }
+    
+    
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\SubjectPermission;
 use App\Http\Requests\StoreUser;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 class UsersController extends Controller
 {   
     /**
@@ -28,7 +30,7 @@ class UsersController extends Controller
             }
         }
         
-        return view('user.show', compact('users'));
+        return view('user.index', compact('users'));
     }
     public function create(){
         return view('user.create');
@@ -38,36 +40,27 @@ class UsersController extends Controller
         
         try{
             DB::beginTransaction();
-            $user = User::create($request->all());
-            if($request->subject_id){
-                foreach($request->user_id as $id){
+            $user = User::create([
+                'name' => $request->name, 
+                'last_name' => $request->last_name, 
+                'email' => $request->email, 
+                'password' => Hash::make($request->password), 
+                'user_type' => 2
+            ]);
+            if($request->subjects){
+                foreach($request->subjects as $id){
                     SubjectPermission::create([
-                        'user_id' => $user->$id,
-                        'subject_id' => $request->subject_id
+                        'user_id' => $user->id,
+                        'subject_id' => $id
                     ]);
                 }
             }
             
             DB::commit();
-             $response = '<div class="text-uppercase text-center">
-            <h1>'.$subject->subject_name.'</h1>
-            <p>'.$subject->subject_branch->branch_name.'</p> <hr>';
-            
-            if($subject->assignedUsers){
-                $response .= '<p>Maestros asignados</p>
-                <ul class="text-center">';
-                foreach($subject->assignedUsers as $user){
-                    $response .=  '<li>'.$user->label.'</li>'; 
-                }    
-            
-                $response.'</ul>';
-            }else{
-                $response .= '<p>Aún no hay tutores asignados.</p>';
-            }
-            
+           
             return \Response::json(array(
-                'response' => $response.'</div>',
-                'location' => '/subjects'.'/'.$subject->id,
+                'response' => 'Cambios guardados correctamente',
+                'location' => '/users'.'/'.$user->id,
             ), 200);
             
         }catch(\Exception $e){
@@ -89,7 +82,7 @@ class UsersController extends Controller
     }
     public function show(Request $request, $id){
         $user = User::findOrFail($id);
-        return view('user.show');
+        return view('user.show', compact('user'));
     }
     public function destroy($id){
         $user = User::findOrFail($id)->delete();

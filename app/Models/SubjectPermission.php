@@ -16,4 +16,7 @@ class SubjectPermission extends Model
        return $this->belongsTo('App\Models\User', 'user_id');
    }
 
+   public function assigned(){
+    return $this->belongsTo('App\Models\Subject', 'subject_id', 'id');
+   }
 }

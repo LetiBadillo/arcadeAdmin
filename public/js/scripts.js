@@ -54,6 +54,7 @@ $('.searchQuestionsInput').on('keyup', function(){
 function fillSelect(select, url, flag){
   $.get(url, function(data){
   var options = '';
+  console.log(url);
   $(data).each(function(key, value){
       var attr = '';
       if(value.permission){

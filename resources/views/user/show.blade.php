@@ -1,51 +1,84 @@
+@php
+$action = '' ;
+$menu_enable = '';
+$status = '';
+if(Auth::user()->user_type == 1 || Auth::user()->id == $user->id){
+
+    if($user->enabled == 1){
+        $action = 'desactivará';
+        $menu_enable = '<i class="fas fa-ban"></i> Desactivar';
+        $status = "Activo";
+
+    }else{
+        $action = 'activará';
+        $menu_enable = '<i class="fas fa-check"></i> Activar';
+        $status = "Inactivo";
+    }
+}
+@endphp
 @extends('layouts.layout')
 @section('content')
 <div class="container h-100">
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="col-12 transparent-green p-5">
-            <table class="table results table-hover">
+            <h1 style="margin: 0; display: inline-block;">
+            @if(Auth::user()->user_type == 1 || Auth::user()->id == $user->id)
+            <div style="float: left;" class="dropdown">
+                <button type="button" class="btn btn-link text-light" data-toggle="dropdown">
+                <h2><i class="fas fa-bars"></i></h2>
+                </button>
+                <div class="dropdown-menu">
+                    <a id="editSubject" class="dropdown-item" href="#"><i class="far fa-edit"></i> Editar</a>
+                    <a id="enableSubject" class="dropdown-item" href="#">  {!! $menu_enable !!}</a>
+                </div>
+            </div>
+            @endif
+            {{$user->label}} 
+        </h1>
+        <h6>Status: {{ $status }} </h6>
+        <hr>
+        <table class="table results table-hover">
                 <thead>
                     <tr>
                     <th scope="col">+</th>
-                    <th scope="col">Ética</th>
-                    <th scope="col">Blanca Leticia Badillo Guzmán</th>
+                    <th scope="col">Materia</th>
+                    <th scope="col">Rama</th>
                     </tr>
                 </thead>
-            </table>
-            <form method="POST" id="storeSubject" action="{{route('subjects.store')}}">
-            @csrf       
-            <div class="form-group">
-            <h5>Preguntas
-            <small><button type="button" style="color: white;" class="button" id="login">agregar pregunta</button></small>
-            </h5>
-            <small id="user_id_error" class="d-none form-text feedback bg-danger"></small>
-            <br>
-            </form>
-
-            <table class="table align-middle results table-hover">
-            <table class="table results table-hover">
-                <thead>
+                <tbody id="subjectsTableBody">
+                    @foreach($user->subjects as $subject)
                     <tr>
-                    <th scope="col">+</th>
-                    <th scope="col">Pregunta</th>
-                    <th scope="col">Opciones</th>
+                        <td>
+                            <a style="color: white;" data-toggle="collapse" href="#c-{{$subject->id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                +
+                            </a>
+                        </td>
+                        <td>{{$subject->assigned->subject_name}}</td>
+                        <td> {{$subject->assigned->subject_branch->branch_name}}</td>   
+                        </tr>
+                        <tr class="collapse detail" id="c-{{$subject->id}}">
+                        <td></td>
+                        <td>Preguntas: 
+                            <p>{{count($subject->questions)}}</p>
+                            <p><a href="{{route('subjects.show', ['id'=>$subject->assigned->id])}}" class="button text-center p-2">Ver detalle</a></p>
+                        </td>
+                        <td> 
+                            @if(count($subject->assigned->assignedUsers))
+                                @if(count($subject->assigned->assignedUsers) == 1)
+                                    Titular:
+                                @else
+                                    Titulares:
+                                @endif
+                                @foreach($subject->assigned->assignedUsers as $user)
+                                <p>{{$user->label}}<p>
+                                @endforeach
+                            @else
+                                <p>Aún no hay titulares asignados<p>
+                            @endif
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="col" class="align-middle" >+</th>
-                    <th scope="col" class="align-middle" >¿Qué buscaba el utilitarismo?</th>
-                    <th scope="col">
-                        <ul>
-                            <li>Paz mundial</li>
-                            <li>Igualdad de género</li>
-                            <li>Beneficiar a la mayoría</li>
-                            <li class="text-primary">
-                                <u>Que cada quién reciba por lo que trabajó</u></li>
-                        </ul>
-                    </th>
-                    </tr>
+                    @endforeach                
                 </tbody>
             </table>
 
@@ -58,7 +91,7 @@
 <script>
     $('#inicio').removeClass('active');
     $(function() {
-        $('.materias').addClass('active');
+        $('.usuarios').addClass('active');
 
     });
 </script>
