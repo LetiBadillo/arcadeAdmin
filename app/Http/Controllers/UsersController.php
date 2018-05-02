@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\SubjectPermission;
 use App\Http\Requests\StoreUser;
+use App\Http\Requests\EditUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Auth;
 class UsersController extends Controller
 {   
     /**
@@ -17,9 +19,11 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('admin')->only(['store', 'create']);
     }
     
     public function index(Request $request){
+
         $users = User::all();
         if($request->ws == "all"){
             return $users;
@@ -30,7 +34,11 @@ class UsersController extends Controller
             }
         }
         
-        return view('user.index', compact('users'));
+        if(Auth::user()->user_type == 1){
+            return view('user.index', compact('users'));   
+        }else{
+            return redirect('dashboard');
+        }
     }
     public function create(){
         return view('user.create');
@@ -61,6 +69,7 @@ class UsersController extends Controller
             return \Response::json(array(
                 'response' => 'Cambios guardados correctamente',
                 'location' => '/users'.'/'.$user->id,
+                'title' => 'Usuarios'
             ), 200);
             
         }catch(\Exception $e){
@@ -76,16 +85,95 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
     }
-    public function update(Request $request, $id){
-        $user = User::findOrFail($id)->update($request->all());
-        return redirect('user');
+    public function update(EditUser $request, $id){
+        try{
+            DB::beginTransaction();
+            $user = User::findOrFail($id);
+            if(empty($request->password)){
+                $user->update([
+                    'name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                ]);
+            }else{
+                $user->update([
+                    'name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password), 
+                ]);
+            }
+            foreach($user->subjects as $subject){
+                $subject->delete();
+            }
+            
+            if($request->subjects){
+                foreach($request->subjects as $id){
+                    SubjectPermission::create([
+                        'user_id' => $user->id,
+                        'subject_id' => $id
+                    ]);
+                }
+            }
+            
+            DB::commit();
+           
+            return \Response::json(array(
+                'response' => 'Cambios guardados correctamente',
+                'location' => '/users'.'/'.$user->id,
+                'title' => $user->label
+            ), 200);
+            
+        }catch(\Exception $e){
+            DB::rollback();
+            return \Response::json(array(
+                'error' => $e->getMessage(),
+            ), 400);
+            ;
+        }
     }
     public function show(Request $request, $id){
         $user = User::findOrFail($id);
-        return view('user.show', compact('user'));
+        if(Auth::user()->user_type == 1 || $user->id == Auth::id()){
+            return view('user.show', compact('user'));      
+        }else{
+            return redirect('dashboard');
+        }
     }
     public function destroy($id){
-        $user = User::findOrFail($id)->delete();
-        return \Redirect::back();
+        try{
+            DB::beginTransaction();
+            $response = $title = '';
+            $user = User::findOrFail($id);
+            $key = $user->enabled;
+            if($key == 1){
+                $user->enabled = 0;
+                $user->save();
+                $title = 'Usuario desactivado.';
+                $response = 'Este usuario ya no tendrá acceso al portal. <br> Puede deshacer esta acción en cualquier momento.';
+            }
+            if($key == 0){
+                $user->enabled = 1;
+                $user->save();
+                $title = 'Usuario activado.';
+                $response = 'Este usuario tendrá aceso al portal. <br> Puede deshacer esta acción en cualquier momento.';
+            }
+            
+            DB::commit();
+             
+            
+            return \Response::json(array(
+                'response' => $response,
+                'location' => '/users'.'/'.$id,
+                'title' => $title
+            ), 200);
+            
+        }catch(\Exception $e){
+            DB::rollback();
+            return \Response::json(array(
+                'error' => $e->getMessage(),
+            ), 400);
+            ;
+        }
     }
 }

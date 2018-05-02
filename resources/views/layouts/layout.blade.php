@@ -23,6 +23,12 @@
           <li class="nav-item active" id="inicio">
             <a href="{{url('/')}}" class="nav-link">INICIO</a>
           </li>
+          @if(Auth::user()->user_type != 1)
+          <li class="nav-item materias">
+            <a href="{{url('subjects')}}" class="nav-link">MATERIAS</a>
+          </li>
+          @endif
+          @if(Auth::user()->user_type == 1)
           <li class="materias nav-item dropup">
             <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MATERIAS </a>
             <div class="dropdown-menu" aria-labelledby="dropdown10">
@@ -37,12 +43,9 @@
             <a class="dropdown-item" href="{{url('users/create')}}">CREAR</a>
             </div>
           </li>
-          <li class="cuenta nav-item dropup">
-            <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CUENTA </a>
-            <div class="dropdown-menu" aria-labelledby="dropdown10">
-            <a class="dropdown-item" href="{{url('users')}}">CONTRASEÑA</a>
-            <a class="dropdown-item" href="{{url('users/create')}}">CREAR</a>
-            </div>
+          @endif
+          <li class="nav-item" id="cuenta">
+            <a href="{{route('users.show', ['id'=>Auth::id()])}}" class="nav-link">CUENTA</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">SALIR</a>            

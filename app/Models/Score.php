@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Score extends Model
 {
     //
-    protected $table = 'subject_branches';
+    protected $table = 'scores';
 
     protected $fillable = ['subject_id', 'username', 'score'];
 

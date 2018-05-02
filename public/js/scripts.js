@@ -57,7 +57,7 @@ function fillSelect(select, url, flag){
   console.log(url);
   $(data).each(function(key, value){
       var attr = '';
-      if(value.permission){
+      if(value.permission || value.allowed){
         attr = "selected";
       }
       options += '<option style="background-color:rgba(84, 210, 1, 1)"; '+attr+' value="'+value.id+'">'+value.label+'</option>';
@@ -96,12 +96,13 @@ function responses(data, action){
     $('#myModal').modal('show');
     break;
     case 2: /*Alert with redirect*/ 
+      $('.modal-title').html(data.title).removeClass('bg-black');
       $('.modal-body').html(data.response);
       $('.modal-footer').html('<a type="button" href="'+data.location+'" class="button pink">Continuar</a>');
       $('#myModal').modal('show');
     break;
     case 3: /*un modal ya abierto*/ 
-    $('.modal-title').html(data.title);
+    $('.modal-title').html(data.title).removeClass('bg-black');
     $('.modal-body').html(data.response);
     $('.modal-footer').html('<a type="button" href="'+data.location+'" class="button pink">Continuar</a>').removeClass('bg-black');;
     break;

@@ -7,6 +7,7 @@ use App\Models\SubjectPermission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreSubject;
+use Auth;
 
 class SubjectsController extends Controller
 {   
@@ -29,8 +30,31 @@ class SubjectsController extends Controller
             ->where('subjects.subject_name', 'like', $request->search.'%')
 	        ->orWhere( 'subject_branches.branch_name', 'like', $request->search.'%')
             ->get();
+        }elseif($request->user){
+            $subjects = Subject::all();
+            $allowed = null;
+            foreach ($subjects as $subject){
+                $allowed = false;
+                foreach ($subject->assignedUsers as $user){
+                    if($user->id == $request->user){
+                        $allowed = true;
+                    }
+                }
+                $subject->allowed = $allowed;
+            }
+            return $subjects;
         }else{
-            $subjects = Subject::paginate(8);
+            if(Auth::user()->user_type == 1){
+                $subjects = Subject::paginate(8);
+            }else{
+                $subjects = Subject::join('subjects_permissions', function ($join) {
+                    $join->on('subjects_permissions.subject_id', '=', 'subjects.id')
+                    ->where('subjects_permissions.user_id', Auth::id());
+                })
+                ->select('subjects.*')
+                ->paginate(8);
+            }
+            
         }
         return view('subject.index', compact('subjects'));
     }
@@ -71,6 +95,7 @@ class SubjectsController extends Controller
             return \Response::json(array(
                 'response' => $response.'</div>',
                 'location' => '/subjects'.'/'.$subject->id,
+                'title' => 'Materia'
             ), 200);
             
         }catch(\Exception $e){
@@ -111,6 +136,7 @@ class SubjectsController extends Controller
             return \Response::json(array(
                 'response' => $response,
                 'location' => '/subjects'.'/'.$id,
+                'title' => 'Materia'
             ), 200);
             
         }catch(\Exception $e){
@@ -148,6 +174,7 @@ class SubjectsController extends Controller
             return \Response::json(array(
                 'response' => $response,
                 'location' => '/subjects'.'/'.$id,
+                'title' => 'Materia'
             ), 200);
             
         }catch(\Exception $e){

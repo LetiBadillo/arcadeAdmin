@@ -23,7 +23,7 @@
                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <label class="form-check-label" for="level">Contraseña</label>
                     <input type="password" class="form-control" name="password" placeholder="Contraseña">
-                    <small id="pasword_error" class="d-none feedback form-text bg-danger"></small>
+                    <small id="password_error" class="d-none feedback form-text bg-danger"></small>
                 </div>
                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <label class="form-check-label" for="level">Repetir contraseña</label>

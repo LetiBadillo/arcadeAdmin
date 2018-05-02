@@ -19,8 +19,9 @@ if($subject->enabled == 1){
 <div class="mb-6 container h-100 mbottom mt-2">
   <div class="row h-100">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="col-12 transparent-green p-5">    
+        <div class="col-12 transparent-green p-5">   
             <h1 style="margin: 0; display: inline-block;">
+                @if(Auth::user()->user_type == 1)
                 <div style="float: left;" class="dropdown">
                     <button type="button" class="btn btn-link text-light" data-toggle="dropdown">
                     <h2><i class="fas fa-bars"></i></h2>
@@ -30,7 +31,7 @@ if($subject->enabled == 1){
                         <a id="enableSubject" class="dropdown-item" href="#">  {!! $menu_enable !!}</a>
                     </div>
                 </div>
-                
+                @endif
                 {{$subject->subject_name}} 
                 <small class="lead">({{$subject->subject_branch->branch_name}} - 
                     @if($subject->level == 0)
@@ -235,7 +236,8 @@ if($subject->enabled == 1){
         });
         
         $('#enableSubject').on('click', function(){
-            $('.modal-title, .modal-header').html('').removeClass('bg-black');
+            $('.modal-title').html('').removeClass('bg-black');
+            $('.modal-header').removeClass('bg-black');
             $('.close').addClass('text-light');
             $('.modal-body').html('<form id="enableForm">@csrf\
                             <input name="_method" type="hidden" value="DELETE">\

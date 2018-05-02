@@ -26,7 +26,7 @@ class Subject extends Model
     }
 
     public function topScores(){
-        return $this->hasMany('App\Models\Score');
+        return $this->hasMany('App\Models\Score', 'subject_id', 'id');
     }
     
     public function permissions(){

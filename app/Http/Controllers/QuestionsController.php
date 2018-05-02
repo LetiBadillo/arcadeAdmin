@@ -158,6 +158,7 @@ class QuestionsController extends Controller
             return \Response::json(array(
                 'response' => $response,
                 'location' => '/subjects'.'/'.$question->subject->id,
+                'title' => 'Pregunta'
             ), 200);
             
         }catch(\Exception $e){
