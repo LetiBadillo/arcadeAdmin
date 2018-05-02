@@ -10,14 +10,10 @@
             @include('partials.user.register')            
             <div class="form-group">
             <h5>Asignar materia
-            <small><button type="button" style="color: white;" class="button" id="login">agregar nueva materia</button></small>
             </h5>
             <small id="user_id_error" class="d-none form-text feedback bg-danger"></small>
-            <select style="width:100%;" class="multiselect" multiple="multiple" id="subjectsSelect" name="users[]">
-                <option value="1">Ética</option>
-                <option value="2">Matemáticas</option>
-                <option value="4">Circuitos</option>
-                <option value="9">Electrónica</option>
+            <select style="width:100%;" class="multiselect" multiple="multiple" id="subjectsSelect" name="subjects[]">
+
             </select>
             </div>
 
@@ -34,10 +30,10 @@
     $('#inicio').removeClass('active');
     $(function() {
         $('.usuarios').addClass('active');
-        var allUsers = "{{url('users?ws=all')}}";
+        var allSubjects = "{{url('subjects?ws=all')}}";
         var branches = "{{url('branches?ws=all')}}";
 
-        /*fillSelect($('#usersSelect'), allUsers, 1);*/
+        fillSelect($('#subjectsSelect'), allSubjects, 1);
         saveForm($('#storeSubject'), "{{route('subjects.store')}}");
     });
 </script>

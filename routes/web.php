@@ -20,6 +20,7 @@ Route::get('/dashboard', function (){
 })->middleware('auth');
 
 Route::resource('subjects', 'SubjectsController');
+Route::resource('questions', 'QuestionsController');
 Route::resource('users', 'UsersController');
 Route::resource('branches', 'SubjectBranchesController');
 

@@ -17,7 +17,6 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->longText('question');
             $table->unsignedInteger('subject_id');
-            $table->integer('score');
             $table->integer('difficulty');
             $table->unsignedInteger('author_id');
             $table->integer('enabled')->default(1);

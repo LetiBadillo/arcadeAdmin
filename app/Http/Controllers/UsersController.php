@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
-
+use App\Http\Requests\StoreUser;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -21,6 +21,11 @@ class UsersController extends Controller
         $users = User::all();
         if($request->ws == "all"){
             return $users;
+        }elseif($request->ws== "bySubject"){
+            if($request->id){
+                return User::join('subjects_permissions', 'users.id', '=', 'subjects_permissions.user_id')
+                ->where('subjects_permissions.subject_id', $request->id)->get();
+            }
         }
         
         return view('user.show', compact('users'));
@@ -29,9 +34,49 @@ class UsersController extends Controller
         return view('user.create');
     }
 
-    public function store(Request $request){
-        $user = User::create($request->all());
-        return redirect('user');
+    public function store(StoreUser $request){
+        
+        try{
+            DB::beginTransaction();
+            $user = User::create($request->all());
+            if($request->subject_id){
+                foreach($request->user_id as $id){
+                    SubjectPermission::create([
+                        'user_id' => $user->$id,
+                        'subject_id' => $request->subject_id
+                    ]);
+                }
+            }
+            
+            DB::commit();
+             $response = '<div class="text-uppercase text-center">
+            <h1>'.$subject->subject_name.'</h1>
+            <p>'.$subject->subject_branch->branch_name.'</p> <hr>';
+            
+            if($subject->assignedUsers){
+                $response .= '<p>Maestros asignados</p>
+                <ul class="text-center">';
+                foreach($subject->assignedUsers as $user){
+                    $response .=  '<li>'.$user->label.'</li>'; 
+                }    
+            
+                $response.'</ul>';
+            }else{
+                $response .= '<p>Aún no hay tutores asignados.</p>';
+            }
+            
+            return \Response::json(array(
+                'response' => $response.'</div>',
+                'location' => '/subjects'.'/'.$subject->id,
+            ), 200);
+            
+        }catch(\Exception $e){
+            DB::rollback();
+            return \Response::json(array(
+                'error' => $e->getMessage(),
+            ), 400);
+            ;
+        }
     }
 
     public function edit(Request $request, $id){

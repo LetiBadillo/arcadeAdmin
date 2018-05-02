@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -27,10 +28,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $appends = ['label'];
+    protected $appends = ['label', 'permission'];
 
     public function subjects(){
-        return $this->hasManyThrough(Subject::class, SubjectPermission::class);
+        return $this->hasMany(SubjectPermission::class);
     }
 
     public function questions(){
@@ -40,5 +41,19 @@ class User extends Authenticatable
     public function getlabelAttribute()
     {
        return $this->name.' '.$this->last_name;
+    }
+    public function getpermissionAttribute()
+    {
+        if(request()->subject_id){
+            foreach($this->subjects as $subject){
+                if($subject->subject_id == request()->subject_id){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }else{
+            return null;
+        }
     }
 }

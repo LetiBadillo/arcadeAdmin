@@ -34,14 +34,14 @@
             <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">USUARIOS </a>
             <div class="dropdown-menu" aria-labelledby="dropdown10">
             <a class="dropdown-item" href="{{url('users')}}">VER</a>
-            <a class="dropdown-item" href="{{url('users/create-*')}}">CREAR</a>
+            <a class="dropdown-item" href="{{url('users/create')}}">CREAR</a>
             </div>
           </li>
           <li class="cuenta nav-item dropup">
             <a class="nav-link" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CUENTA </a>
             <div class="dropdown-menu" aria-labelledby="dropdown10">
             <a class="dropdown-item" href="{{url('users')}}">CONTRASEÑA</a>
-            <a class="dropdown-item" href="{{url('users/create-*')}}">CREAR</a>
+            <a class="dropdown-item" href="{{url('users/create')}}">CREAR</a>
             </div>
           </li>
           <li class="nav-item">

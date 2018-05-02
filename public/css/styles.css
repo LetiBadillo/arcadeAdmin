@@ -41,6 +41,7 @@
   #mainCarousel{
     position:fixed; 
     bottom: 0;
+    top: 0;
     z-index: -1;
   }
   #mainCarousel img{
@@ -216,7 +217,9 @@ button{
 		background:	#C01EB2;
 }
 
-
+.yellow-txt{
+  color: #F0CF26;
+}
 
 
 /********************************

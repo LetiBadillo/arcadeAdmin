@@ -43,7 +43,7 @@
                         <tr class="collapse detail" id="c-{{$subject->id}}">
                         <td></td>
                         <td>Preguntas: 
-                            <p>30</p>
+                            <p>{{count($subject->questions)}}</p>
                             <p><a href="{{route('subjects.show', ['id'=>$subject['id']])}}" class="button text-center p-2">Ver detalle</a></p>
                         </td>
                         <td> 

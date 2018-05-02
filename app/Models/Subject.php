@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
@@ -11,15 +11,18 @@ class Subject extends Model
 
     protected $fillable = ['subject_name', 'subject_branch_id', 'level', 'enabled'];
 
-    protected $appends = ['assignedUsers', 'branchName'];
+    protected $appends = ['assignedUsers', 'branchName', 'hasSubjectPermission', 'label'];
 
-
+    public function getlabelAttribute()
+    {
+       return $this->subject_name;
+    }
     public function subject_branch(){
         return $this->belongsTo('App\Models\SubjectBranch');
     }
 
     public function questions(){
-        return $this->hasMany('App\Models\Question');
+        return $this->hasMany('App\Models\Question')->orderBy('created_at', 'desc');
     }
 
     public function topScores(){
@@ -41,6 +44,20 @@ class Subject extends Model
 
     public function getbranchNameAttribute(){
         return $this->subject_branch->branch_name;
+    } 
+   
+    public function gethasSubjectPermissionAttribute(){
+        if(Auth::user()->user_type == 1){
+            return true;
+        }else{
+            foreach($this->assignedUsers as $user){
+                if($user->id == Auth::id()){
+                    return true;
+                }else{
+                    continue;
+                }
+            }
+        }
     }
 
 }

@@ -82,20 +82,80 @@ class SubjectsController extends Controller
         }
     }
 
-    public function edit(Request $request, $id){
-        $subject = Subject::findOrFail($id);
-        return view('subject.edit', compact('subject'));
+    public function edit(StoreSubject $request, $id){
+        
     }
-    public function update(Request $request, $id){
-        $subject = Subject::findOrFail($id)->update($request->all());
-        return redirect('subjects');
+    public function update(StoreSubject $request, $id){
+        try{
+            DB::beginTransaction();
+            $subject = Subject::findOrFail($id);
+            $subject->update($request->all());
+            if($subject->assignedUsers){
+                foreach($subject->permissions as $user){
+                    $user->delete();
+                }    
+                    
+            }
+            if($request->user_id){
+                foreach($request->user_id as $user){
+                    SubjectPermission::create([
+                        'user_id' => $user,
+                        'subject_id' => $id
+                    ]);
+                }
+            }
+            
+            DB::commit();
+             $response = 'Cambios guardados correctamente.';
+            
+            return \Response::json(array(
+                'response' => $response,
+                'location' => '/subjects'.'/'.$id,
+            ), 200);
+            
+        }catch(\Exception $e){
+            DB::rollback();
+            return \Response::json(array(
+                'error' => $e->getMessage(),
+            ), 400);
+            ;
+        }
     }
     public function show(Request $request, $id){
         $subject = Subject::findOrFail($id);
         return view('subject.show', compact('subject'));
     }
     public function destroy($id){
-        $subject = Subject::findOrFail($id)->delete();
-        return \Redirect::back();
+        try{
+            DB::beginTransaction();
+            $response = '';
+            $subject = Subject::findOrFail($id);
+            $key = $subject->enabled;
+            if($key == 1){
+                $subject->enabled = 0;
+                $subject->save();
+                $response = 'Materia desactivada.';
+            }
+            if($key == 0){
+                $subject->enabled = 1;
+                $subject->save();
+                $response = 'Materia activada.';
+            }
+            
+            DB::commit();
+             
+            
+            return \Response::json(array(
+                'response' => $response,
+                'location' => '/subjects'.'/'.$id,
+            ), 200);
+            
+        }catch(\Exception $e){
+            DB::rollback();
+            return \Response::json(array(
+                'error' => $e->getMessage(),
+            ), 400);
+            ;
+        }
     }
 }
